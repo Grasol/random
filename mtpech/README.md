@@ -15,6 +15,6 @@
   'mtpech' używa rejesestrów ymm (256-bitowych), natomiast 'mtpech2' rejstrów zmm (512-bitowych).
 </p>
 <p>
-  Do uruchomienia binarek wymagany jest procesor z instrukcjami AVX-512. 
+  Do uruchomienia binarek wymagany jest procesor z instrukcjami AVX-512(F, VL, DQ, BW). 
   Kod został napisany pod Windowsa.
 </p>
