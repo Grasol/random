@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <title>Chat</title>
+  <link rel="stylesheet" href="index.css">
+
+</head>
+
+<body>
+  <div id="main_text">
+    <h1>Simple Chat</h1>
+  </div>
+
+  <div id="logon">
+    <form action="dashboard.php" method="post">
+      <h4>Zaloguj się</h4>
+
+      <label class="lc">Nazwa użytkownika: </label>
+      <input class="ic" type="text" name="login" maxlength=64><br/><br/>
+      
+      <label class="lc">Hasło: </label>
+      <input class="ic" type="password" name="pwd" maxlength=64><br/><br/>
+
+      <button type="subbmit">Zaloguj!</button>
+
+    </form>
+  </div>
+
+  <div id="register">
+    <form action="register.php" method="post">
+      <h4>Zarejestruj się</h4>
+
+      <label class="lc">Nazwa użytkownika: </label>
+      <input class="ic" type="text" name="login" maxlength=64><br/><br/>
+      
+      <label class="lc">Hasło: </label>
+      <input class="ic" type="password" name="pwd" maxlength=64><br/><br/>
+      
+      <label class="lc">Potwierdź hasło: </label>
+      <input class="ic" type="password" name="conf_pwd" maxlength=64><br/><br/>
+
+      <button type="subbmit">Zarejestruj!</button>
+
+    </form>
+  </div>
+
+
+
+</body>
+</html>

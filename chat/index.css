@@ -1,0 +1,74 @@
+
+body {
+  text-align: center;
+}
+
+#main_text {
+  font-size: 35px;
+  font-style: italic;
+}
+
+#logon, 
+#register, 
+#invalid_pwd, 
+#invalid_login, 
+#invalid_conf_pwd, 
+#reg_correct,
+#invalid_logon,
+#user_info,
+#connect {
+  vertical-align: middle;
+  display: inline-block;
+  padding: 10px;
+  margin: 15px;
+
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+
+  font-size: 20px;
+  font-family: "Arial";
+}
+
+#name_ip {
+  display: inline;
+}
+
+#inbox {
+  width: 50%;
+
+  font-size: 15px;
+  font-family: "Arial";
+}
+
+#chat_box {
+  vertical-align: middle;
+  display: inline-block;
+
+  height: relativ;
+  width: 50%;
+  overflow: auto;
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+
+  font-size: 15px;
+  font-family: "Arial";
+
+
+}
+
+.lc {
+  float: left;
+}
+
+.ic {
+  float: right;
+}
+
+.chat_msg {
+  margin: 2px;
+}
+
