@@ -42,27 +42,25 @@ def parserHTTP(http):
   path = data[1]
   ver = data[2]
 
-  header_fileds = {}
+  header_fields = {}
   key = None
   arg = []
   for d in data[3:]:
     if d[-1] == ":":
       if len(arg) != 0:
-        header_fileds.setdefault(key, arg)
+        header_fields.setdefault(key, arg)
         arg = []
 
       key = d
-
 
     else:
       arg.append(d)
 
   else:
     if len(arg) != 0:
-      header_fileds.setdefault(key, arg)
+      header_fields.setdefault(key, arg)
 
-  return header_fileds, verb, path, ver
-
+  return header_fields, verb, path, ver
 
 def returnHTTP(data="", status=200, status_text="OK", mime="text/plain;charset=utf-8"):
   http = [f"HTTP/1.1 {status} {status_text}"]
@@ -80,11 +78,9 @@ def returnHTTP(data="", status=200, status_text="OK", mime="text/plain;charset=u
 
   return '\r\n'.join(http)
 
-
 def sendAll(sock, txt, fmt="utf-8"):
   data = txt.encode(fmt)
   sock.sendall(data)
-
 
 def recvAll(sock, max, fmt="utf-8"):
   data = ""
@@ -97,7 +93,6 @@ def recvAll(sock, max, fmt="utf-8"):
 
   return data
 
-
 def recvUntil(sock, text, fmt="utf-8"):
   data = ""
   while text not in data:
@@ -108,7 +103,6 @@ def recvUntil(sock, text, fmt="utf-8"):
     data += d
 
   return data
-
 
 def handle_client(conn, tcp_addr, gen_addr):
   global global_chat
@@ -161,17 +155,22 @@ def handle_client(conn, tcp_addr, gen_addr):
   conn.shutdown(socket.SHUT_RDWR)
   conn.close()
 
-
 def main():
   argv = sys.argv
   argc = len(argv)
+  
+  host = socket.gethostbyname(socket.gethostname())
+  port = 8080
   if argc >= 3:
     host = argv[1]
     port = int(argv[2])
 
-  else:
-    host = socket.gethostbyname(socket.gethostname())
-    port = 8080
+  elif argc == 2:
+    try:
+      port = int(argv[1])
+
+    except ValueError:
+      host = argv[1]
 
   tcp_addr = (host, port)
   
@@ -184,8 +183,6 @@ def main():
     conn, n_tcp_addr = sock.accept()
     th = threading.Thread(target=handle_client, args=(conn, n_tcp_addr, tcp_addr))
     th.start()
-
-
 
 
 if __name__ == "__main__":

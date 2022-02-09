@@ -1,13 +1,13 @@
 
 var addr = document.getElementById("chat_ip").innerHTML
 var user = document.getElementById("user").innerHTML;
-var fault_num = 0;
-var chat_len = 0;
-
-
 var outbox = document.getElementById("chat_outbox");
 var inbox = document.getElementById("inbox");
 
+var fault_num = 0;
+var chat_len = 0;
+
+var first_scroll = true;
 
 const errorHandling = (jqXHR, textStatus, errorThrown) => {
   outbox.innerHTML += ("<span> error: " + errorThrown + "<br/></span>");
@@ -66,7 +66,17 @@ const getChat = () => {
     url: "http://" + addr + "/chat",
 
     success: function (chat) {
+        var chat_box = document.getElementById("chat_box");
+        var scroll = chat_box.scrollTop;
+        var scroll_top = chat_box.scrollHeight;
+
         outbox.innerHTML = chat;
+
+        var new_scroll_top = chat_box.scrollHeight;
+        if (scroll_top - scroll <= chat_box.offsetHeight + 30 || first_scroll) {
+          chat_box.scrollTop = new_scroll_top;
+          first_scroll = false;
+        }
     },
 
     error: function (jqXHR, textStatus, errorThrown) {
