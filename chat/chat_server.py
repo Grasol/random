@@ -62,15 +62,14 @@ def parserHTTP(http):
 
   return header_fields, verb, path, ver
 
-def returnHTTP(data="", status=200, status_text="OK", mime="text/plain;charset=utf-8"):
+def returnHTTP(data="", status=200, status_text="OK", mime="text/plain; charset=utf-8", fmt="utf-8"):
   http = [f"HTTP/1.1 {status} {status_text}"]
   
   http += [f"Access-Control-Allow-Origin: *"]
 
   if len(data) != 0 and type(data) is str:
     http += [f"Content-Type: {mime}"]
-    http += [f"Content-Length: {len(data)}"]
-    #http += [f"Access-Control-Allow-Credentials: true"]
+    http += [f"Content-Length: {len(data.encode(fmt))}"]
     http += ["", data]
 
   else:
@@ -79,19 +78,20 @@ def returnHTTP(data="", status=200, status_text="OK", mime="text/plain;charset=u
   return '\r\n'.join(http)
 
 def sendAll(sock, txt, fmt="utf-8"):
-  data = txt.encode(fmt)
+  data = txt
+  if type(data) not in (bytes, bytearray):
+    data = data.encode(fmt)
+
   sock.sendall(data)
 
 def recvAll(sock, max, fmt="utf-8"):
-  data = ""
+  data = b""
   while (n := (max - len(data))) > 0:
-    d = sock.recv(n).decode(fmt)
-    if len(d) == 0:
+    data += sock.recv(n)
+    if len(data) == 0:
       return False
 
-    data += d
-
-  return data
+  return str(data, fmt)
 
 def recvUntil(sock, text, fmt="utf-8"):
   data = ""
@@ -106,7 +106,7 @@ def recvUntil(sock, text, fmt="utf-8"):
 
 def handle_client(conn, tcp_addr, gen_addr):
   global global_chat
-  if DEBUG_MODE: print(f"-- {tcp_addr} connected --")
+  if DEBUG_MODE: print(f"-- {tcp_addr} connected -- ", end='')
 
   header = recvUntil(conn, "\r\n\r\n")
   if not header:
@@ -127,7 +127,7 @@ def handle_client(conn, tcp_addr, gen_addr):
 
   back_data = ""
   status = 200
-  mime = "text/plain;charset=utf-8"
+  mime = "text/plain; charset=utf-8"
 
   match path:
     case "/msg":
@@ -144,8 +144,7 @@ def handle_client(conn, tcp_addr, gen_addr):
 
     case "/chat":
       back_data = global_chat.build()
-      print(back_data)
-      mime = "text/html;charset=utf-8"
+      mime = "text/html; charset=utf-8"
 
     case _:
       status = 400
