@@ -1,7 +1,7 @@
 from macrobf import *
 
 GAME = 0x20
-TURE = 0x21 # 1:O 2:X
+TURN = 0x21 # 1:O 2:X
 INPUT_CH = 0x22
 CH_SPACE = 0x24
 CH_O = 0x25
@@ -27,8 +27,8 @@ WIN_PATTERNS = (
   "\0\0\1\0\1\0\1\0\0"
 )
 
-TURE_MSG_PTR = 0x90 # 0x90 - 0x97
-TURE_MSG = "Turn: \1\n\0"
+TURN_MSG_PTR = 0x90 # 0x90 - 0x97
+TURN_MSG = "Turn: \1\n\0"
 
 BOARD_MSG_IDX = 0x2c
 BOARD_MSG_PTR = 0xa0 # 0xa0 - 0xda
@@ -106,31 +106,31 @@ def checkWin():
 
   return
 
-def printTureMsg():
-  PMOV(TURE_MSG_PTR)
+def printTURNMsg():
+  PMOV(TURN_MSG_PTR)
 
-  LOOP(P(), ".print_ture")
+  LOOP(P(), ".print_TURN")
   EQU(C(0x10), P(), 1)
 
-  IF(C(0x10), ".ture_ch")
-  EQU(C(0x11), C(TURE), 1)
+  IF(C(0x10), ".TURN_ch")
+  EQU(C(0x11), C(TURN), 1)
 
-  IF(C(0x11), ".ture_ox")
+  IF(C(0x11), ".TURN_ox")
   OUT(C(CH_O))
 
-  ELSE(".ture_ox")
+  ELSE(".TURN_ox")
   OUT(C(CH_X))
 
-  ENDIF(".ture_ox")
+  ENDIF(".TURN_ox")
 
-  ELSE(".ture_ch")
+  ELSE(".TURN_ch")
   OUT(P())
 
-  ENDIF(".ture_ch")
+  ENDIF(".TURN_ch")
 
   PADD(1)
 
-  ENDLOOP(P(), ".print_ture")
+  ENDLOOP(P(), ".print_TURN")
 
   return
 
@@ -193,7 +193,7 @@ def main():
 
   putString(WIN_PATTERN_PTR, WIN_PATTERNS)
 
-  putString(TURE_MSG_PTR, TURE_MSG)
+  putString(TURN_MSG_PTR, TURN_MSG)
 
   putString(BOARD_MSG_PTR, BOARD_MSG)
 
@@ -204,14 +204,14 @@ def main():
   putString(DRAW_PTR, DRAW_MSG)
 
   MOV(C(GAME), 1)
-  MOV(C(TURE), 1)
+  MOV(C(TURN), 1)
   MOV(C(INPUT_CH), 0)
 
   LOOP(C(GAME), "game_loop")
   
   printBoard()
 
-  printTureMsg()
+  printTURNMsg()
 
   # input
   MOV(C(0x10), 1)
@@ -225,7 +225,7 @@ def main():
   EQU(C(0x10), P(), 0)
 
   IF(C(0x10), ".set_board")
-  MOV(P(), C(TURE))
+  MOV(P(), C(TURN))
   MOV(C(INPUT_CH), 0)
 
   ELSE(".set_board")
@@ -255,16 +255,16 @@ def main():
   ENDIF("check_o_win")
 
   IF(C(GAME), "game_continue")
-  # switch ture
-  EQU(C(0x10), C(TURE), 1)
+  # switch TURN
+  EQU(C(0x10), C(TURN), 1)
 
-  IF(C(0x10), "switch_ture")
-  MOV(C(TURE), 2)
+  IF(C(0x10), "switch_TURN")
+  MOV(C(TURN), 2)
 
-  ELSE("switch_ture")
-  MOV(C(TURE), 1)
+  ELSE("switch_TURN")
+  MOV(C(TURN), 1)
 
-  ENDIF("switch_ture")
+  ENDIF("switch_TURN")
 
   # check empty tiles to continue
   PMOV(TILE_BOARD)
