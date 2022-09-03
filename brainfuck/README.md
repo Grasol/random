@@ -4,10 +4,10 @@ Brainfuck intepreter have 5 new command:
  - **/** \- copy to cell 0
  - **?** \- copy to cell 1
  - **#** \- halt
- - **$** \- return data pointer to cell 0
+ - **$** \- back data pointer to cell 0
  - **%** \- exchange data pointeres
 
-Interpreter have additional data pointer. Pointer 1 is a the main pointer and this pointer is use. Pointer 2 is additional. '%' command is use to swap values of these pointers.
+Interpreter have additional data pointer. First pointer is a the main pointer and this pointer is use. Second Pointer is additional. '%' command is use to swap which pointer use.
 
 ## Macro brainfuck
 
