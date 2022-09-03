@@ -7,7 +7,7 @@ Brainfuck intepreter have 5 new command:
  - **$** \- back data pointer to cell 0
  - **%** \- exchange data pointeres
 
-Interpreter have additional data pointer. First pointer is a the main pointer and this pointer is use. Second Pointer is additional. '%' command is use to swap which pointer use.
+Interpreter have additional data pointer. First pointer is a the main pointer. Second Pointer is additional. '%' command is use to swap which pointer use.
 
 ## Macro brainfuck
 
